@@ -1,0 +1,24 @@
+<table class="table table-borderless">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">address</th>
+            <th scope="col">dni</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let student of students;index as i">
+            <th scope="row">{{i}}</th>
+            <td>{{student.firstName}}</td>
+            <td>{{student.lastName}}</td>
+            <td>{{student.email}}</td>
+            <td>{{student.address}}</td>
+            <td>{{student.dni}}</td>
+            <td><a [routerLink]="['/students' , student.studentId]" class="btn btn-info">VER</a></td>
+        </tr>
+    </tbody>
+</table>

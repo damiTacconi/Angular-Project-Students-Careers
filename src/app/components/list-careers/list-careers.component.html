@@ -1,0 +1,16 @@
+<table class="table table-borderless">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let career of careers;index as i">
+            <th scope="row">{{i}}</th>
+            <td>{{career.name}}</td>
+            <td>{{career.description}}</td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,19 @@
+<div class="container" *ngIf="student">
+    <h1 class="student-full-name">{{ student.lastName }}, {{ student.firstName}}</h1>
+    <table class="table">
+        <thead>
+            <th>Email</th>
+            <th>DNI</th>
+            <th>Address</th>
+            <th>Career</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <td>{{ student.email }}</td>
+            <td>{{ student.dni }}</td>
+            <td>{{ student.address}}</td>
+            <td>{{ career === null ? 'Sin Carrera':career.name}}</td>
+            <th><a [routerLink]="['modify']" class="btn btn-success">MODIFY</a></th>
+        </tbody>
+    </table>
+</div>

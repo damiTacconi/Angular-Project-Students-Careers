@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div *ngIf="userLogged;else navLoggedOut" class="navbar-nav">
+            <a [routerLink]="['/students/add']" routerLinkActive="active" class="nav-item nav-link" href="#">Add Student
+                <span class="sr-only">(current)</span></a>
+            <a [routerLink]="['/students']" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active"
+                class="nav-item nav-link" href="#">List
+                Students</a>
+            <a [routerLink]="['/careers']" routerLinkActive="active" class="nav-item nav-link" href="#">List Careers</a>
+
+        </div>
+        <ng-template #navLoggedOut>
+            <div class="navbar-nav">
+                <a [routerLink]="['/login']" routerLinkActive="active" class="nav-item nav-link" href="#">Login
+                    <span class="sr-only">(current)</span></a>
+                <a [routerLink]="['/register']" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active"
+                    class="nav-item nav-link" href="#">Register</a>
+            </div>
+        </ng-template>
+    </div>
+</nav>
