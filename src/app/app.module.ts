@@ -16,6 +16,7 @@ import { ModifyStudentComponent } from './components/modify-student/modify-stude
 import { ReactiveFormsModule } from "@angular/forms";
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { MessageComponent } from './components/message/message.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { RegisterComponent } from './components/register/register.component';
     StudentDetailsComponent,
     ModifyStudentComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,
