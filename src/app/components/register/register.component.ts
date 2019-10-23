@@ -13,6 +13,7 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   user: User = new User();
   repeatPassword: string = '';
+  password: string;
   message = {
     show: false,
     type: 'success'
@@ -21,20 +22,25 @@ export class RegisterComponent implements OnInit {
   constructor(private userService: UserService) { }
 
 
-  confirmPassword(c: AbstractControl): { confirmPassword: boolean } {
-    if (c.get('password').value !== c.get('confirmPassword').value) {
-      return { confirmPassword: true };
+  validatePassword(password: string): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const confirmPassword = control.value;
+      console.log(password)
+      return password !== confirmPassword ? {
+        'passwordInvalid': {
+          value: true
+        }
+      } : null;
     }
   }
 
 
-  async submit() {
+  submit() {
     if (this.registerForm.valid) {
       const { password, email } = this.registerForm.controls;
-      const user = new User()
-      user.email = email.value
-      user.password = password.value
-      await this.userService.signUp(user)
+      this.user.email = email.value
+      this.user.password = password.value
+      this.userService.signUp(this.user)
         .then(() => this.registerForm.reset())
         .catch(() => this.message.type = 'danger')
         .finally(() => this.message.show = true)
@@ -47,11 +53,9 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
     this.registerForm = new FormGroup({
       "email": new FormControl(this.user.email, [Validators.required, Validators.email]),
-      "password": new FormControl(this.user.password, [Validators.required, Validators.minLength(5)]),
+      "password": new FormControl(this.user.password, [Validators.required]),
       "confirmPassword": new FormControl(this.repeatPassword,
-        [Validators.required])
-    }, {
-      validators: [this.confirmPassword]
+        [Validators.required, this.validatePassword(this.password)])
     })
   }
 
@@ -67,4 +71,7 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get('email')
   }
 
+  changePassword(event) {
+    this.password = event.target.value;
+  }
 }
