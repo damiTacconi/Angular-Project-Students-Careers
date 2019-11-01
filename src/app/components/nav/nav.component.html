@@ -12,7 +12,7 @@
                 class="nav-item nav-link" href="#">List
                 Students</a>
             <a [routerLink]="['/careers']" routerLinkActive="active" class="nav-item nav-link" href="#">List Careers</a>
-
+            <a (click)="logout()" class="nav-item nav-link" href="#">Logout</a>
         </div>
         <ng-template #navLoggedOut>
             <div class="navbar-nav">

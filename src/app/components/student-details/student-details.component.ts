@@ -4,6 +4,7 @@ import { StudentService } from 'src/app/services/student.service';
 import { Student } from 'src/app/models/student';
 import { CareerService } from 'src/app/services/career.service';
 import { Careers } from 'src/app/models/careers';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-student-details',
@@ -15,6 +16,7 @@ export class StudentDetailsComponent implements OnInit {
   private student: Student;
   private career: Careers = null;
   constructor(
+    private userService: UserService,
     private careerService: CareerService,
     private studentService: StudentService,
     private router: Router, private route: ActivatedRoute) { }

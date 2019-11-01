@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ValidatorFn, AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
-
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators/'
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -12,21 +14,31 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
   user: User = new User();
-  repeatPassword: string = '';
+  confirmPassword: string = '';
   password: string;
   message = {
     show: false,
     type: 'success'
   }
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
 
-  validatePassword(password: string): ValidatorFn {
+  validateEmail() {
+    return (control: AbstractControl): Observable<any> => {
+      return this.userService.validateEmail(control.value).pipe(
+        map(res => null),
+        catchError(error => of({
+          'invalidEmail': true
+        }))
+      )
+    }
+  }
+
+  validatePassword(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const confirmPassword = control.value;
-      console.log(password)
-      return password !== confirmPassword ? {
+      return this.password !== confirmPassword ? {
         'passwordInvalid': {
           value: true
         }
@@ -37,13 +49,18 @@ export class RegisterComponent implements OnInit {
 
   submit() {
     if (this.registerForm.valid) {
+
       const { password, email } = this.registerForm.controls;
       this.user.email = email.value
       this.user.password = password.value
-      this.userService.signUp(this.user)
-        .then(() => this.registerForm.reset())
-        .catch(() => this.message.type = 'danger')
-        .finally(() => this.message.show = true)
+      this.userService.signUp(this.user).subscribe(response => {
+        this.registerForm.reset();
+        this.message.show = true;
+      },
+        error => {
+          this.message.show = true;
+          this.message.type = 'danger'
+        })
     }
   }
 
@@ -52,10 +69,11 @@ export class RegisterComponent implements OnInit {
   }
   ngOnInit() {
     this.registerForm = new FormGroup({
-      "email": new FormControl(this.user.email, [Validators.required, Validators.email]),
-      "password": new FormControl(this.user.password, [Validators.required]),
-      "confirmPassword": new FormControl(this.repeatPassword,
-        [Validators.required, this.validatePassword(this.password)])
+      "email": new FormControl('', [Validators.required, Validators.email],
+        [this.validateEmail()]),
+      "password": new FormControl(this.user.password, [Validators.required, Validators.minLength(5)]),
+      "confirmPassword": new FormControl(this.confirmPassword,
+        [Validators.required, this.validatePassword()])
     })
   }
 

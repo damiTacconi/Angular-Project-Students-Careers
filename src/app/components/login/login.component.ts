@@ -13,6 +13,10 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup
   user: User = new User()
+  message = {
+    show: false,
+    type: 'success'
+  }
 
   constructor(private userService: UserService, private router: Router) { }
 
@@ -22,19 +26,21 @@ export class LoginComponent implements OnInit {
       this.user.email = this.formEmail.value
       this.user.password = this.formPassword.value
 
-      this.userService.login(this.user)
-        .then(header => {
-          localStorage.setItem('token', header.jwt)
-          this.router.navigateByUrl("/")
+      this.userService.login(this.user).subscribe(response => {
+        localStorage.setItem('token', response.jwt)
+        this.router.navigate([this.userService.urlRoute])
+      },
+        error => {
+          this.message.type = 'danger';
+          this.message.show = true;
         })
-        .catch(error => console.log(error))
     }
   }
 
+  hideMessage() {
+    this.message.show = false;
+  }
   ngOnInit() {
-    if (this.userService.logIn)
-      this.router.navigateByUrl("students/add")
-
     this.loginForm = new FormGroup({
       'email': new FormControl(this.user.email, [Validators.required, Validators.email]),
       'password': new FormControl(this.user.password, [Validators.required])

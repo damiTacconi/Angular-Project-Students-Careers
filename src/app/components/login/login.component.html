@@ -1,3 +1,10 @@
+<div *ngIf="message.show">
+    <div *ngIf="message.type === 'danger'; else error">
+        <app-message [type]="message.type" (hideMessageEvent)="hideMessage()">
+            <strong>Error !</strong> Email o contraseña incorrecta.
+        </app-message>
+    </div>
+</div>
 <div class="card">
     <div class="card-header">
         Login

@@ -24,6 +24,9 @@
                     <div *ngIf="formEmail.errors.email" class="alert alert-danger">
                         Please, insert a valid Email, Example: johnDoe@gmail.com
                     </div>
+                    <div *ngIf="formEmail.errors.invalidEmail" class="alert alert-danger">
+                        This email already exists.
+                    </div>
                 </span>
             </div>
             <div class="form-group">
@@ -32,7 +35,10 @@
                     id="exampleInputPassword1" placeholder="Password">
                 <span *ngIf="formPassword.invalid">
                     <div *ngIf="formPassword.errors.minlength" class="alert alert-danger">
-                        Password must hava minimun five characters
+                        Password must contain more than four characters
+                    </div>
+                    <div *ngIf="formPassword.errors.required" class="alert alert-danger">
+                        Password is required
                     </div>
                 </span>
             </div>
@@ -42,7 +48,7 @@
                     placeholder="Password">
                 <span *ngIf="formConfirmPassword.invalid">
                     <div *ngIf="formConfirmPassword.errors.passwordInvalid" class="alert alert-danger">
-                        Password must hava minimun five characters
+                        Password doesn't match
                     </div>
                 </span>
             </div>

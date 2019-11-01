@@ -7,4 +7,5 @@ export class Student {
     studentId: number;
     careerId: number;
 
+
 }

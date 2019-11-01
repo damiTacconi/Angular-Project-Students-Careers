@@ -7,13 +7,14 @@ import { StudentDetailsComponent } from './components/student-details/student-de
 import { ModifyStudentComponent } from './components/modify-student/modify-student.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
-  { path: "students/add", component: AddStudentComponent },
-  { path: "students", component: ListStudentsComponent },
-  { path: "careers", component: ListCareersComponent },
-  { path: "students/:id", component: StudentDetailsComponent },
-  { path: "students/:id/modify", component: ModifyStudentComponent },
+  { path: "students/add", component: AddStudentComponent, canActivate: [AuthGuard] },
+  { path: "students", component: ListStudentsComponent, canActivate: [AuthGuard] },
+  { path: "careers", component: ListCareersComponent, canActivate: [AuthGuard] },
+  { path: "students/:id", component: StudentDetailsComponent, canActivate: [AuthGuard] },
+  { path: "students/:id/modify", component: ModifyStudentComponent, canActivate: [AuthGuard] },
   { path: "login", component: LoginComponent },
   { path: "register", component: RegisterComponent },
   { path: "**", redirectTo: "login" }

@@ -3,7 +3,8 @@ import { Student } from 'src/app/models/student';
 import { Careers } from 'src/app/models/careers';
 import { StudentService } from 'src/app/services/student.service';
 import { CareerService } from 'src/app/services/career.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-modify-student',
@@ -24,7 +25,9 @@ export class ModifyStudentComponent implements OnInit {
 
   private careers: Array<Careers> = [];
 
-  constructor(private studentService: StudentService, private careerService: CareerService, private route: ActivatedRoute) { }
+  constructor(
+    private userService: UserService, private router: Router,
+    private studentService: StudentService, private careerService: CareerService, private route: ActivatedRoute) { }
 
   update() {
     if (this.firstName != undefined && this.lastName != undefined && this.address != undefined

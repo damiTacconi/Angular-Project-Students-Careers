@@ -14,8 +14,12 @@ export class NavComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.userLogged = this.userService.logIn ? true : false;
+    this.userLogged = this.userService.logIn;
     console.log(this.userService.user)
   }
 
+  logout() {
+    this.userService.logout();
+    window.location.reload();
+  }
 }
